@@ -1,0 +1,31 @@
+# Node modules (rebuildable with npm install)
+node_modules/
+
+# Environment variables (keep credentials safe)
+.env
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Config folder (if you have sensitive config files)
+config/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Optional build/output folders
+dist/
+build/
+
+# Temporary or swap files
+*.tmp
+*.swp
