@@ -94,7 +94,21 @@ const registerUser = async (req, res) => {
 
 //Route idkman for admin login
 const adminLogin = async (req, res) => {
-    
+    try {
+        const { email, password } = req.body;
+
+        //check
+        if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+            //if true generate a token
+            const token = jwt.sign(email+password, process.env.JWT_SECRET)
+            res.json({success: true, token})
+        } else{
+            res.json({success: false, message: "Invalid credentials"})
+        }
+    } catch (error) {
+        console.log(error)
+        res.json({status: false, message: error.message})
+    }
 }
 
 export { loginUser, registerUser, adminLogin }
