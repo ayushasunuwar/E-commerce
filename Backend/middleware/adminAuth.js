@@ -8,7 +8,7 @@ const adminAuth = async (req, res, next) => {
         //check for token availability
         if (!token) {
             //if not available stop execution
-            return res.json({success: false, message: "Not authorized Login Again"})
+            return res.status(201).json({success: false, message: "Not authorized Login Again"})
         }
 
         //if available decode token
@@ -16,14 +16,12 @@ const adminAuth = async (req, res, next) => {
 
         //verify decoded token
         if (token_decode !== process.env.ADMIN_EMAIL+process.env.ADMIN_PASSWORD) {
-            return res.json({success: false, message: "Not authorized Login again"})
+            return res.status(201).json({success: false, message: "Not authorized Login again"})
         }
         next()
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
