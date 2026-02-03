@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
     subCategory: {type: String, required: true},
     sizes: {type: Array, required: true},
     bestSeller: {type: Boolean},
-    date: {type: Number, required: true}
+    date: {type: Date, required: true}
 })
 
 //creating model
