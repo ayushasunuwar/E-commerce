@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { assets } from '../assets/front_end_assets/assets'
 
 const Footer = () => {
