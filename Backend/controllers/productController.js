@@ -44,14 +44,10 @@ const addProduct = async (req, res) => {
         //save the product document in the mongoDB database
         await product.save()
 
-        res.json({
-            success: true, message: "Product Added"
-        })
+        res.status(201).json({ success: true, message: "Product Added" })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -59,14 +55,10 @@ const addProduct = async (req, res) => {
 const listProducts = async (req, res) => {
     try {
         const products = await productModel.find({})
-        res.json({
-            success: true, products
-        })
+        res.status(200).json({ success: true, products })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -74,14 +66,10 @@ const listProducts = async (req, res) => {
 const removeProduct = async (req, res) => {
     try {
         await productModel.findByIdAndDelete(req.body.id)
-        res.json({
-            success: true, message: "Product Removed"
-        })
+        res.status(204).json({ success: true, message: "Product Removed" })
     } catch (error) {
         console.log(error)
-        res.json({
-            succes: false, message: error.message
-        })
+        res.status(500).json({ succes: false, message: error.message })
     }
 }
 
@@ -90,14 +78,10 @@ const singleProduct = async (req, res) => {
     try {
     const { productId } = req.body;
     const product = productModel.findById(productId)
-    res.json({
-        succes: true, message: product
-    })
+    res.status(200).json({ succes: true, message: product })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 

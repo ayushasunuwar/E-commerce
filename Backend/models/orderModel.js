@@ -13,6 +13,6 @@ const orderSchema = new mongoose.Schema({
 })
 
 //create model instance for order schema
-const orderModel = mongoose.models.order || mongoose.models('order', orderSchema);
+const orderModel = mongoose.models.order || mongoose.model('order', orderSchema);
 
 export default orderModel

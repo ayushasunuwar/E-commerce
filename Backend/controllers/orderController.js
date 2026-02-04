@@ -1,6 +1,6 @@
 
 import orderModel from '../models/orderModel.js'
-import userModel from '../models/userModel';
+import userModel from '../models/userModel.js';
 import Stripe from 'stripe'
 
 //use secret key to create instance of key
@@ -24,14 +24,10 @@ const placeOrder = async(req, res) => {
         const newOrder = new orderModel(orderData);
         await newOrder.save()
         await userModel.findByIdAndUpdate(userId, {cartData: {}})
-        res.json({
-            success: true, message: "Order Placed"
-        })
+        res.status(201).json({ success: true, message: "Order Placed" })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -84,10 +80,10 @@ const placeOrderStripe = async (req, res) => {
             mode: Payment
         })
 
-        res.json({success: true, session_url: session.url})
+        res.status(200).json({success: true, session_url: session.url})
     } catch (error) {
         console.log(error)
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 }
 
@@ -101,10 +97,10 @@ const verifyStripe = async(req, res) => {
 
             await userModel.findByIdAndUpdate(userId, {cartData: {}})
 
-            res.json({success: true})
+            res.status(200).json({success: true})
         } else {
             await orderModel.findByIdAndDelete(orderId)
-            res.json({success: false})
+            res.status(401).json({success: false})
         }
     } catch (error) {
         console.log(error)
@@ -116,14 +112,10 @@ const verifyStripe = async(req, res) => {
 const allOrders = async (req, res) => {
     try {
         const orders = await orderModel.find({})
-        res.json({
-            success: true, orders
-        })
+        res.status(200).json({ success: true, orders })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -132,14 +124,10 @@ const userOrders = async (req, res) => {
     try {
         const { userId } = req.body;
         const orders = await orderModel.find({userId})
-        res.json({
-            success: true, orders
-        })
+        res.status(200).json({ success: true, orders })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -148,10 +136,10 @@ const orderStatus = async (req, res) => {
     try {
         const { orderId, status } = req.body;
         await orderModel.findByIdAndUpdate(orderId, {status})
-        res.json({success: true, message: "Status Updated"})
+        res.status(200).json({success: true, message: "Status Updated"})
     } catch (error) {
         console.log(error)
-        res.json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 }
 

@@ -1,4 +1,4 @@
-import userModel from "../models/userModel";
+import userModel from "../models/userModel.js";
 
 
 //add products to user cart
@@ -24,10 +24,10 @@ const addToCart = async (req, res) => {
 
         await userModel.findByIdAndUpdate(userId, {cartData})
 
-        res.status(200).json({ success: true, message: "Added to Cart" })
+        res.status(201).json({ success: true, message: "Added to Cart" })
     } catch (error) {
         console.log(error)
-        res.status(201).json({success: false, message: error.message})
+        res.status(500).json({success: false, message: error.message})
     }
 }
 
@@ -41,14 +41,10 @@ const updateCart = async (req, res) => {
 
         cartData[itemId][size] = quantity;
         await userModel.findByIdAndUpdate(userId, {cartData})
-        res.json({
-            success: true, message: "Cart Updated"
-        })
+        res.status().json({ success: true, message: "Cart Updated" })
     } catch (error) {
         console.log(error)
-        res.json({
-            success: false, message: error.message
-        })
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
@@ -60,11 +56,10 @@ const getUserCart = async (req, res) => {
         const userData = await userModel.findById(userId);
         const cartData = await userData.cartData
 
-        res.json({
-            success: true, cartData: cartData
-        })
+        res.status(200).json({ success: true, cartData: cartData })
     } catch (error) {
-        
+        console.log(error)
+        res.status(500).json({ success: false, message: error.message })
     }
 }
 
