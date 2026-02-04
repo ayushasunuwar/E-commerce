@@ -19,7 +19,7 @@ const Login = () => {
     try {
 
       if (currentState === 'Sign Up') {
-        const response = await axios.post(backendUrl + '/api/user/register', {name, email, password})
+        const response = await axios.post(backendUrl + '/api/users/register', {name, email, password})
         if(response.data.success){
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
@@ -29,7 +29,7 @@ const Login = () => {
         }
       }
       else{
-        const response = await axios.post(backendUrl + '/api/user/login', {email, password})
+        const response = await axios.post(backendUrl + '/api/users/login', {email, password})
         if(response.data.success){
           setToken(response.data.token)
           localStorage.setItem('token', response.data.token)
@@ -40,7 +40,7 @@ const Login = () => {
       
     } catch (error) {
       console.log(error)
-      toast.error(error.message)
+      error.response?.data?.message || "Something went wrong"
     }
   }
 
@@ -48,7 +48,7 @@ const Login = () => {
     if(token){
       navigate('/')
     }
-  }, [token])
+  }, [token, navigate])
 
   return (
     <form onSubmit={onSubmitHandler} className='flex flex-col items-center w-[90%] sm:max-w-96 m-auto mt-14 gap-4 text-gray-800'>

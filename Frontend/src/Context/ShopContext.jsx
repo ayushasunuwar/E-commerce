@@ -18,6 +18,8 @@ const ShopContextProvider = (props) => {
     const [token, setToken] = useState('')
     const navigate = useNavigate();
 
+    console.log("backendUrl:", backendUrl);
+
     const addToCart = async (itemId, size) => {
 
         if (!size) {
@@ -78,7 +80,8 @@ const ShopContextProvider = (props) => {
 
         if (token) {
             try {
-                await axios.post(backendUrl + '/api/cart/update', {itemId, size, quantity}, {headers: token})
+                await axios.post(backendUrl + '/api/cart/update', {itemId, size, quantity}, 
+                    {headers: { Authorization: `Bearer ${token}`}} )
             } catch (error) {
                 console.log(error)
                 toast.error(error.message)
@@ -94,7 +97,7 @@ const ShopContextProvider = (props) => {
             for(const item in cartItems[items]){
                 try {
                     if(cartItems[items][item] > 0){
-                        totalAmount = itemInfo.price * cartItems[items][item];
+                        totalAmount += itemInfo.price * cartItems[items][item];
                     }
                 } catch (error) {
                     
@@ -108,7 +111,7 @@ const ShopContextProvider = (props) => {
     const getProductsData = async () => {
         try {
             
-            const response = await Axis3DIcon.get(backendUrl + '/api/products/list')
+            const response = await axios.get(backendUrl + '/api/products/list')
             if (response.data.success) {
                 setProducts(response.data.products)
             }
@@ -123,7 +126,9 @@ const ShopContextProvider = (props) => {
 
     const getUserCart = async(token) => {
         try {
-            const response = await axios.post(backendUrl + '/api/cart/get', {}, {headers: token})
+            const response = await axios.post(backendUrl + '/api/cart/get', {},
+                { headers: { Authorization: `Bearer ${token}` }}
+            )
             if (response.data.success) {
                 setCartItems(response.data.cartData)
             }
