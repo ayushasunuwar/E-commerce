@@ -16,6 +16,10 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault();
 
+    if(!password){
+      return toast.error('Password required');
+    }
+
     try {
 
       if (currentState === 'Sign Up') {
@@ -40,7 +44,7 @@ const Login = () => {
       
     } catch (error) {
       console.log(error)
-      error.response?.data?.message || "Something went wrong"
+      toast.error(error.response?.data?.message || "Something went wrong")
     }
   }
 
